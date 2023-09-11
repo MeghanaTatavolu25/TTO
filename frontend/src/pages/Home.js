@@ -49,26 +49,30 @@ const Item = ({id, heading, icon, image, description,links, text }) => (
     <>
         <div
             style={{
-                background: 'linear-gradient(134deg, rgba(255, 255, 255, 0.80) 0%, rgba(255, 255, 255, 0.16) 100%)',
+                borderRadius: '2.27vw',
+                border: '3px solid rgba(105, 120, 255, 0.41)',
+                background: 'linear-gradient(108deg, rgba(255, 255, 255, 0.80) 2.34%, rgba(255, 255, 255, 0.16) 100%)',
                 boxShadow: '0px 0px 50px -25px rgba(0, 0, 0, 0.50)',
-                backdropFilter: "blur(30px)",
+                backdropFilter: 'blur(1.0741vw)',
+                flexShrink: '0',
                 height: "24.5vw",
                 width:'19.5vw',
                 padding: "1vw 1.5vw",
-                borderRadius: "2.27vw",
-                transition: "transform 0.3s, box-shadow 0.3s", // Add transition for smooth animation
-                transformOrigin: "center", // Set the transform origin to the center
-                transform: "scale(1)", // Initial scale value
+                transition: "transform 0.3s, box-shadow 0.3s", 
+                transformOrigin: "center",
+                transform: "scale(1)", 
             }}
             onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.1)"; // Scale up on hover
+                e.currentTarget.style.transform = "scale(1.1)"; 
                 e.currentTarget.style.boxShadow =
-                    "0px 0px 50px -25px rgba(0, 0, 0, 0.7), 0px 0px 30px -15px rgba(0, 0, 0, 0.3)"; // Add dark shadow when expanded
+                    "0px 0px 50px -25px rgba(0, 0, 0, 0.7), 0px 0px 30px -15px rgba(0, 0, 0, 0.3)"; 
+                    e.currentTarget.style.backdropFilter='blur(1.0741vw)';
             }}
             onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)"; // Scale back to the original size when not hovering
+                e.currentTarget.style.transform = "scale(1)"; 
                 e.currentTarget.style.boxShadow =
-                    "0px 0px 50px -25px rgba(0, 0, 0, 0.5)"; // Restore original shadow
+                    "0px 0px 50px -25px rgba(0, 0, 0, 0.5)";
+                    e.currentTarget.style.backdropFilter='blur(10px)';
             }}
         >
              <ResponsiveImage src={icon} alt="icon" maxWidth={380} maxHeight={280} />
@@ -308,15 +312,15 @@ function Home() {
                 <Container style={{
                    maxWidth: "90%",
                    height: "37.5vw",
-                   padding: "1vw 0 5vw 0",
+                   padding: "1vw 0 0 0",
                    flexShrink: 0,
                    backgroundImage: `url(${landing})`,
                    backgroundSize: "cover",
                    backgroundPosition: "center",
                 }}>
 
-                    <p className="text-center" style={{ fontFamily: 'Prompt', fontWeight: "600", fontSize: "3.6vw", color: "#FCFCFC", letterSpacing:'0.02em' }}>Technology Transfer Office</p>
-                    <Grid container spacing={2} justify="space-between" style={{ padding: "3vw 2.5vw 0", width: "100%" }}>
+                    <p className="text-center" style={{ fontFamily: 'Prompt', fontWeight: "600", fontSize: "3.6vw", color: "#FCFCFC", letterSpacing:'0.02em', marginLeft:'0.1vw' }}>Technology Transfer Office</p>
+                    <Grid container spacing={2} justify="space-between" style={{ padding: "3vw 2.5vw 0", width: "100%", marginLeft:'0.1vw' }}>
                         <Grid item xs={3} sm={3} md={3} style={{ marginLeft: "6vw" }}>
                             <Item {...items[0]} />
                         </Grid>
@@ -342,13 +346,12 @@ function Home() {
                                 alt="Your image description"
                                 style={{ width: '100%', height: 'auto' }}
                             />
-                            {/* <ResponsiveImage src={t1} alt="icon" maxWidth={700} maxHeight={700}/> */}
                         </Grid>
                         <Grid item xs={1} sm={1} md={1}></Grid>
                         <Grid item xs={7} sm={7} md={7} style={{ paddingTop: "4em" }}>
                             <a href={`/Lab_Technologies/${centers.Research_Lab}/${centers.ResearchLabCode}`} style={{ textDecoration: 'none',color: "#434343" }}>
-                                <p style={{fontWeight: 400, fontSize: "1.66vw" }}>{centers.Research_Lab}</p>
-                                <p style={{fontWeight: 400, fontSize: "1.0417vw", display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }} >
+                                <p style={{color: "#434343", fontWeight: 400, fontSize: "1.66vw", lineHeight:'1.7vw' }}>{centers.Research_Lab}</p>
+                                <p style={{color: "#434343", fontWeight: 400, fontSize: "1.0417vw", display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }} >
                                 {centers.Description}   
                                 </p>
                             </a>
@@ -366,8 +369,8 @@ function Home() {
                         <Grid item xs={12} style={{ borderBottom: '0.27vw solid #535353',  marginTop:'-1vw' }}></Grid>
                         <Grid item xs={7} sm={7} md={7} style={{ paddingTop: "4em" }}>
                             <a href={startup.Website} style={{ textDecoration: 'none' }} target="_blank">
-                                <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.6vw" }}>{startup.StartUp_Name}</p>
-                                <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.12vw",display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis"}} >{startup.Idea_Description}</p>
+                                <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.66vw", lineHeight:'1.7vw' }}>{startup.StartUp_Name}</p>
+                                <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.0417vw",display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis"}} >{startup.Idea_Description}</p>
                             </a>
                             <a href="./Startups" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
                             <Button variant="contained" className="buttons" style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }}>
@@ -398,12 +401,12 @@ function Home() {
                         </Grid>
                         <Grid item xs={1} sm={1} md={1}></Grid>
                         <Grid item xs={7} sm={7} md={7} style={{ paddingTop: "4em" }}>
-                            <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.5vw", paddingBottom: "0em" }}>{patent.Title}</p>
-                            <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.12vw" }} >
+                            <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.66vw", lineHeight:'1.7vw' }}>{patent.Title}</p>
+                            <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.0417vw" }} >
                                 Research Lab - {researchLabNames[patent.Center_Name]}
                             </p>
-                            <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.12vw" }} >
-                              Faculty - {patent.Inventor_List && patent.Inventor_List.length > 1 ? patent.Inventor_List.join(', ') : patent.Inventor_List}
+                            <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.0417vw" }} >
+                              Faculty - {patent.Faculty_List && patent.Faculty_List.length > 1 ? patent.Faculty_List.join(', ') : patent.Faculty_List}
                             </p>
                             <a href="/patents" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
                               <Button variant="contained"className="buttons" style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }}>
@@ -419,8 +422,8 @@ function Home() {
                         <Grid item xs={12} style={{ borderBottom: '0.27vw solid #535353',  marginTop:'-1vw' }}></Grid>
                         <Grid item xs={7} sm={7} md={7} style={{ paddingTop: "4em" }}>
                         <a href={`/Products_Technologies/${productCenterName[product.CentreName]}/${encodeURIComponent(product.NameOfProduct)}`} style={{ textDecoration: 'none' }}>
-                            <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.5vw", paddingBottom: "0em" }}>{product.NameOfProduct}</p>
-                            <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.12vw",display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }} >{product.Description}</p>
+                            <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.66vw", lineHeight:'1.7vw' }}>{product.NameOfProduct}</p>
+                            <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.0417vw",display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }} >{product.Description}</p>
                         </a>
                             <a href="./Products" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
                               <Button variant="contained"className="buttons" style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }}>

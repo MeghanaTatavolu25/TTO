@@ -7,31 +7,31 @@ const ResponsiveNavbar = () => {
   return (
     <Navbar style={navbarStyle} className="fixed-top">
       <Nav className="mx-auto d-flex justify-content-center" style={{ gap: '5.5vw' }}>
-        <NavLink exact to="/" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
+        <NavLink exact to="/" className="navHover" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
           Home
         </NavLink>
-        <NavLink to="/Technology_Catalogues" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
+        <NavLink to="/Technology_Catalogues" className="navHover" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
           Technology Catalogue
         </NavLink>
-        <NavLink to="/Startups" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
+        <NavLink to="/Startups" className="navHover" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
           Startups
         </NavLink>
-        <NavLink to="/patents" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
+        <NavLink to="/patents" className="navHover" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
           Patents
         </NavLink>
-        <NavLink to="/Products" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
+        <NavLink to="/Products" className="navHover" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
           Products
         </NavLink>
-        <a href="https://canvas.iiithcanvas.com/" style={navLinkStyle} target="_blank">
+        <a href="https://canvas.iiithcanvas.com/" className="navHover" style={navLinkStyle} target="_blank">
           IIITH-Canvas
         </a>
-        <a href="https://devportal.iiithcanvas.com/login" style={navLinkStyle} target="_blank">
+        <a href="https://devportal.iiithcanvas.com/login" className="navHover" style={navLinkStyle} target="_blank">
           APIs
         </a>
-        <a href="https://portal2022-rndshowcase.iiit.ac.in/expo-hall/" style={navLinkStyle} target="_blank">
+        <a href="https://portal2022-rndshowcase.iiit.ac.in/expo-hall/" className="navHover" style={navLinkStyle} target="_blank">
           R&amp;D Showcase
         </a>
-        <NavLink to="/Team" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
+        <NavLink to="/Team" className="navHover" style={navLinkStyle} activeStyle={activeNavLinkStyle}>
           The Team
         </NavLink>
       </Nav>
@@ -54,14 +54,15 @@ const navLinkStyle = {
   letterSpacing: '0.01em',
   color: '#FFFFFF',
   fontWeight: 400,
-  textDecoration: 'none', // Remove default underline
+  textDecoration: 'none',
 };
 
 const activeNavLinkStyle = {
-  position: 'relative', // Set position to relative for the parent NavLink
-  textDecoration: 'none', // Remove default underline
-  borderBottom: '1px solid white', // Add custom underline
-  paddingBottom: '2px', // Adjust this value to control the distance of the underline from the text
+  position: 'relative',
+  textDecoration: 'none',
+  borderBottom: '0.0521vw solid white',
+  paddingBottom: '0.1041vw',
+  
 };
 
 export default ResponsiveNavbar;

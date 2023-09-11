@@ -16,8 +16,10 @@ body {
 }
 .myheading {
   font-weight: 500;
-  font-size: 1.61vw;
+  font-size: 1.55vw;
   color:#FFFFFF;
+  height: 2vw;
+  line-height: 1.3vw;
   margin:1.3vw 0.4vw 0;
   letter-spacing: -1.28px;
 }

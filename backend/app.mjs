@@ -152,6 +152,7 @@ const start = async () => {
     "https://tto-website.s3-website.ap-south-1.amazonaws.com/", 
     "https://dszxzctv8cwnz.cloudfront.net", 
     "https://tto.iiit.ac.in",
+    "*"
   ]}));
   app.use(admin.options.rootPath, adminRouter)
   app.use(bodyParser.json());

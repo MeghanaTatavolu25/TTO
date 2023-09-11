@@ -1,4 +1,8 @@
-.underline:hover {
-    text-decoration: none;
-  }
+.navHover:hover {
+  position: relative;
+  text-decoration: none;
+  border-bottom: 0.0521vw solid white;
+  padding-bottom: 0.1041vw;
+}
+
   

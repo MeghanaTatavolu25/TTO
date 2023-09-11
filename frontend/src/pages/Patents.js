@@ -445,7 +445,7 @@ function Patent() {
                           marginLeft:'11vw',
                           fontFamily: 'Prompt',
                           height: 'auto',
-                          minHeight: '84vh',
+                          minHeight: '42vw',
                           overflowY: 'auto',
                           overflowX:'hidden',
                       }}

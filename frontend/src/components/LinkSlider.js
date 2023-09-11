@@ -50,7 +50,7 @@ export default function ImageSlider() {
                     e.currentTarget.style.transform = "scale(1)";
                   }}
                 >
-                  <div style={{ display: "flex", flexDirection: "row", margin: "0.8vh 0 0" }}>
+                  <div style={{ display: "flex", flexDirection: "row", margin: "0.4vw 0 0" }}>
                     <div style={{ flex: 1,margin: "2vw 0.3vw 0" }}>
                       <img src={link.image} alt="lorem" style={{ width: "80%" }} />
                     </div>
