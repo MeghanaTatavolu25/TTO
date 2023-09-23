@@ -9,6 +9,7 @@ import 'react-calendar/dist/Calendar.css';
 import SearchIcon from '@material-ui/icons/Search';
 import Chatbot from '../chatbot/Chatbot';
 import LoadingSpinner from '../Img/loading.gif'; 
+import mixpanel from 'mixpanel-browser';
 
 const SearchBar = ({ setSearchQuery }) => {
   return (
@@ -311,6 +312,11 @@ function Component2({ searchQuery, sortOption, activeLab, activeStatus, selected
     setCurrentPage(value);
   };
 
+  // Function to track a navigation event
+  const patentsTracking = (patentnames) => {
+    mixpanel.track('Patents', { 'About Patent': patentnames});
+  };
+
   return (
     <div className="headerContainer" style={{ textAlign: 'left' }}>
       <div>
@@ -320,7 +326,12 @@ function Component2({ searchQuery, sortOption, activeLab, activeStatus, selected
         </div>
       ) : (
         currentPatents.map(result => (
-          <Grid item xs={10} sm={10} md={10} style={{ paddingBottom: '2.6vw' }} key={result.id}>
+          <Grid item xs={10} sm={10} md={10} style={{ paddingBottom: '2.6vw' }} key={result.id}
+            onClick={() => {
+              patentsTracking(result.Title);
+              mixpanel.track('Patents', { 'About Patent': result.Title });
+            }}
+          >
             <p style={{ fontWeight: '400', fontSize: '1.0417vw' }}>
             {patentStatus[result.Status]} |{' '}
               <span style={{ color: '#2C2C2C' }}>{researchLabNames[result.Center_Name]}</span> |{' '}

@@ -6,6 +6,10 @@ import { Button, Row, Col } from 'react-bootstrap';
 import icon from '../Img/logo.png'
 import Chatbot from '../chatbot/Chatbot';
 import LoadingSpinner from '../Img/loading.gif'; 
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import print from '../Img/print.png';
+import mixpanel from 'mixpanel-browser';
 
 const ProductLab_Products = () => {
   const [products, setProducts] = useState([]);
@@ -84,8 +88,28 @@ const ProductLab_Products = () => {
   
     return pageItems;
   };
+  const generatePDF = () => {
+    // Get the entire document body
+    const element = document.body;
   
+    // Use html2canvas to capture the entire page
+    html2canvas(element).then((canvas) => {
+      // Create a new jsPDF instance
+      const pdf = new jsPDF('p', 'mm', 'a4');
+  
+      // Add the captured canvas to the PDF
+      pdf.addImage(canvas.toDataURL('image/jpeg'), 'JPEG', 0, 0, 210, 297);
+  
+      // Save the PDF as a file
+      pdf.save('products.pdf');
+    });
+  };
 
+  // Function to track a navigation event
+  const productsTracking = (productnames) => {
+    mixpanel.track('Product Labs Products', { 'About Product Labs Product': productnames });
+  };
+  
   return (
     <>
     <Chatbot />
@@ -121,7 +145,7 @@ const ProductLab_Products = () => {
         </div>
         <div style={{ background: "#343434", height: "0.156249vw", marginTop:'0.5vw' }}></div>
       </Container>
-      <Container style={{ maxWidth: "82%", marginBottom: '4.65vw' }}>
+      <Container style={{ maxWidth: "82%", marginBottom: '5vw' }}>
         <Row>
         {isLoading ? ( // Display loading symbol if isLoading is true
             <div style={{height:'25vw'}}>
@@ -132,15 +156,33 @@ const ProductLab_Products = () => {
           getPageItems().map((product, index) => (
         <Col key={index} lg={4}>
           {product ? (
-              <a href={`/Products_Technologies/${researchLabNamesMap[product.CentreName]}/${encodeURIComponent(product.NameOfProduct)}`} style={{ textDecoration: 'none', width:'80%' }}>
-                <div style={{ letterSpacing: "-0.04em", lineHeight: "1.5vw", fontFamily: 'Prompt', margin: '1.5vw 0 2.5vw', width:'90%' }}>
-                  <div className="content-container" style={{ display: "flex", alignItems: "flex-start", margin: '0', width: '100%',marginLeft:'1.2vw' }}>
-                    <div style={{ width: '20%', height: '2.5vw' }}>
-                    <img src={getProductImageURL(product)} alt="/" style={{ width: '3.5vw', height: '100%' }} />
+              <a 
+                href={`/Products_Technologies/${researchLabNamesMap[product.CentreName]}/${encodeURIComponent(product.NameOfProduct)}`} 
+                style={{ textDecoration: 'none', width:'80%' }}
+                onClick={() =>{
+                  productsTracking(product.NameOfProduct);
+                  mixpanel.track('Products', { 'About Products': product.NameOfProduct }); // Track the event in Mixpanel
+              }}>
+                <div 
+                  style={{ letterSpacing: "-0.04em", lineHeight: "1.5vw", fontFamily: 'Prompt',margin: '0.7vw 0 1vw', marginLeft:'1.3vw', width:'90%',border: '1px solid #DCECFD',background: 'rgba(236, 243, 252, 0.60)' }}
+                  onMouseEnter={(e) => {
+                    // e.currentTarget.style.transform = "scale(1.15)";
+                    // e.currentTarget.style.boxShadow= "0px 4px 10px 5px rgba(209, 209, 209, 0.63)";
+                    e.currentTarget.style.background='#DCEEFF';
+                  }}
+                  onMouseLeave={(e) => {
+                    // e.currentTarget.style.transform = "scale(1)"; // Reset the scale
+                    // e.currentTarget.style.boxShadow = "none"; // Reset the box shadow
+                    e.currentTarget.style.background='rgba(236, 243, 252, 0.60)';
+                  }}
+                >
+                  <div className="content-container" style={{ display: "flex", alignItems: "flex-start", margin:'0.5vw 1.2vw 0', width: '100%' }}>
+                    <div style={{width: '18%', height: '3vw'}}>
+                    <img src={getProductImageURL(product)} alt="/" style={{width: '100%',height: '100%',objectFit: 'contain',border: '1px solid #D3E6F9', background: 'white' }} />
                     </div>
-                    <h2 className="underline-on-hover" style={{ width: '80%', color: "#353535", fontSize: "1.145826vw", fontWeight: 400, margin: '0.5vw 0 0.5vw', display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }}>{product.NameOfProduct}</h2>
+                    <h2 className="underline-on-hover" style={{ width: '80%', color: "#353535", fontSize: "1.145826vw", fontWeight: 400, margin:'1vw 1vw 0.5vw', display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }}>{product.NameOfProduct}</h2>
                   </div>
-                  <p style={{ lineHeight: '1.2vw',marginTop:'0.3vw', marginLeft: '1.1vw', color: "#757575", fontSize: "1vw", fontWeight: 400, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }}>{product.Description}</p>
+                  <p style={{ lineHeight: '1.2vw',margin:'0.5vw 1.1vw 0.2vw', color: "#757575", fontSize: "1vw", fontWeight: 400, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }}>{product.Description}</p>
                   <div style={{ marginLeft: '1.1vw', color: "#A7A6A6", fontSize: "0.8vw", fontWeight: 300,textDecoration: 'none'  }}>
                      <div style={{margin:'0 0 0.1vw'}}>Professor - {product.Faculty_Name}</div>
                       <a href={`/Lab_Technologies/${researchLabNamesMap[product.CentreName]}`} style={{textDecoration:'none'}} >
@@ -151,7 +193,7 @@ const ProductLab_Products = () => {
               </a>
            ) : (
             // Render empty space placeholder
-            <div style={{ width: '100%', height: '12vw' }} />
+            <div style={{ width: '100%', height: '12.35vw' }} />
           )}
         </Col>
        ))
@@ -198,6 +240,7 @@ const ProductLab_Products = () => {
               &gt;
             </div>
           )}
+          <button onClick={generatePDF} style={{border:'none', background:'white', marginLeft:'1vw'}}><img src={print}/></button>
         </div>
       )}
 

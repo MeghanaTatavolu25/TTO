@@ -10,6 +10,7 @@ import iiitfacultylink from '../Img/iiitfacultylink.png'
 import 'typeface-poppins';
 import Chatbot from "../chatbot/Chatbot"
 import LoadingSpinner from '../Img/loading.gif'; 
+import mixpanel from 'mixpanel-browser';
 
 const Team = () => {
   const [teams, setTeams] = useState([]);
@@ -40,6 +41,11 @@ const Team = () => {
   };
 
   const totalPages = Math.ceil(teams.length / profilesPerPage);
+
+  // Function to track a navigation event
+  const teamProfileTracking = (teamprofiles) => {
+    mixpanel.track('Team Profiles', { 'About Profile': teamprofiles });
+  };
 
   return (
     <>
@@ -73,7 +79,14 @@ const Team = () => {
           </div>
         ) : (
           currentProfiles.map((profile, index) => (
-            <div className="profile" key={index}>
+            <div 
+              className="profile" 
+              key={index}
+              onClick={() => {
+                teamProfileTracking(profile.Name);
+                mixpanel.track('Team Profiles', { 'About Profile': profile.Name });
+              }}
+            >
               {profile ? (
                 <div className="profile-photo">
                   {profile.ProfilePhoto && profile.ProfilePhoto.key && (

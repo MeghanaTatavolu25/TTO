@@ -23,8 +23,15 @@ import AdminCatalogue from "./pages/AdminCatalogue"
 import JobSeeker from "./pages/JobSeeker"
 import Entrepreneur from "./pages/Entrepreneur"
 import Industry from "./pages/Industry"
+import React, {useEffect } from 'react';
+import mixpanel from "mixpanel-browser"; 
 
 function App() {
+  useEffect(() => {
+    // Initialize Mixpanel with your project token
+    mixpanel.init("496f9fe244ac2b6ad3115540f31c60f1");
+  }, []);
+  
     return (
 
         <div className="App" style={{ minWidth: "800px" }}>
@@ -57,7 +64,7 @@ function App() {
                     {/* <Route path="/chat" exact component={LoginPage} /> */}
                     {/* <Route path="/chathome" exact component={HomePage} /> */}
 
-                    <h1>asDada</h1>
+                    {/* <h1>asDada</h1> */}
                 </Switch>
 
                 <Footbar/>

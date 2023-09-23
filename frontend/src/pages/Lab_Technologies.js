@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 import icon from '../Img/logo.png'
 import Chatbot from "../chatbot/Chatbot"
 import LoadingSpinner from '../Img/loading.gif'; 
+import mixpanel from 'mixpanel-browser';
 
 const Lab_Technologies = () => {
   const { LabName } = useParams();
@@ -81,6 +82,15 @@ const Lab_Technologies = () => {
     setSelectedSection(section);
   };
 
+  // Functions to track an event
+  const catalogueDescription = (cataloguedescription) => {
+    mixpanel.track('Catalogue Descriptions', { 'Catalogue Description': cataloguedescription });
+  };
+
+  const technologiesTracking = (technologiesname) => {
+    mixpanel.track('Technologies', { 'About Technologies': technologiesname });
+  };
+
   return (
     <>
     <Chatbot />
@@ -144,7 +154,11 @@ const Lab_Technologies = () => {
           <div className="sidebar-heading">{LabName}</div>
           <div
             className={`description-heading ${showDescription ? 'active' : ''}`}
-            onClick={handleDescriptionClick}
+            onClick={() => {
+              handleDescriptionClick();
+              catalogueDescription(LabName);
+              mixpanel.track('Catalogue Descriptions', { 'Catalogue Description': LabName });
+            }}
             >
             Description
           </div>
@@ -163,14 +177,15 @@ const Lab_Technologies = () => {
                     <div
                       key={product._id}
                       className={`product ${selectedProduct === product ? 'active' : ''}`}
-                      onClick={() => handleProductClick(product)}
+                      onClick={() => {
+                        handleProductClick(product);
+                        technologiesTracking(product.NameOfTechnology);
+                        mixpanel.track('Technologies', { 'About Technologies': product.NameOfTechnology });
+                      }}
                     >
-                      <h3
-                        className="underline-on-hover"
-                        style={{ width: '23vw', fontWeight: 300, fontSize: "1.245vw", lineHeight: "1.3vw", cursor: "pointer", margin: "0.2vw 0 1.1vw" }}
-                      >
-                         {LabName === 'Product Lab' ? product.NameOfProduct : product.NameOfTechnology}
-                         </h3>
+                      <h3 className="underline-on-hover" style={{ width: '23vw', fontWeight: 300, fontSize: "1.245vw", lineHeight: "1.3vw", cursor: "pointer", margin: "0.2vw 0 1.1vw" }}>
+                        {LabName === 'Product Lab' ? product.NameOfProduct : product.NameOfTechnology}
+                      </h3>
                     </div>
                   </div>
                 ))

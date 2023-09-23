@@ -1,4 +1,5 @@
 import React from "react"
+import { useState, useEffect } from "react";
 import "../styles/Home.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Grid, Button } from '@material-ui/core';
@@ -17,6 +18,8 @@ import t3 from '../Img/t3.png'
 import t4 from '../Img/t4.png'
 import ImageSlider from "../components/LinkSlider"
 import ResponsiveImage from "../components/ResponsiveImage"
+import mixpanel from 'mixpanel-browser';
+
 
 const items = [
     { 
@@ -44,6 +47,11 @@ const items = [
         links: './Productize'
     },
 ];
+
+// Function to track a items
+const trackNavigation = (cardheadings) => {
+mixpanel.track('Cards', { 'Card headings': cardheadings });
+};
 
 const Item = ({id, heading, icon, image, description,links, text }) => (
     <>
@@ -80,11 +88,21 @@ const Item = ({id, heading, icon, image, description,links, text }) => (
                 <div className="mydescription">{description}</div>
                 {/* Check if the id is 1, if yes, add target="_blank" to the link */}
                 {id === 1 ? (
-                    <a href={links} target="_blank" style={{ textDecoration: 'none' }}>
+                    <a href={links} target="_blank" style={{ textDecoration: 'none' }} 
+                    onClick={() => {
+                        trackNavigation(heading); // Track the cards event
+                        mixpanel.track('Cards', { 'Card headings': heading }); // Track the event in Mixpanel
+                    }}
+                    >
                     <div className="visitpage">Visit Page</div>
                     </a>
                 ) : (
-                    <a href={links} style={{ textDecoration: 'none' }}>
+                    <a href={links} style={{ textDecoration: 'none' }}
+                    onClick={() => {
+                        trackNavigation(heading); // Track the cards event
+                        mixpanel.track('Cards', { 'Card headings': heading }); // Track the event in Mixpanel
+                    }}
+                    >
                     <div className="visitpage">Visit Page</div>
                     </a>
                 )}
@@ -93,18 +111,9 @@ const Item = ({id, heading, icon, image, description,links, text }) => (
 );
 
 
-
-
-import { useState, useEffect } from "react";
-
-
-function Home() {
+const Home = () => {
 
     const [centers, setCenters] = useState([]);
-    const [monthsAgo1, setMonthsAgo1] = useState(null);
-    const [monthsAgo2, setMonthsAgo2] = useState(null);
-    const [monthsAgo3, setMonthsAgo3] = useState(null);
-    const [monthsAgo4, setMonthsAgo4] = useState(null);
     const [startup,setstartup]=useState([]);
     const [patent,setpatent]=useState([]);
     const [product,setproduct]=useState([]);
@@ -305,6 +314,12 @@ function Home() {
           (end.getMonth() - start.getMonth());
         return monthsDifference;
       };
+
+    // Function to track a navigation event
+    const trackNavigation = (explorepagenames) => {
+        mixpanel.track('Explore Pages', { 'Explore pages': explorepagenames });
+      };
+
     return (
         <>
             <div className="home" style={{fontFamily: "Prompt" }} >
@@ -349,15 +364,27 @@ function Home() {
                         </Grid>
                         <Grid item xs={1} sm={1} md={1}></Grid>
                         <Grid item xs={7} sm={7} md={7} style={{ paddingTop: "4em" }}>
-                            <a href={`/Lab_Technologies/${centers.Research_Lab}/${centers.ResearchLabCode}`} style={{ textDecoration: 'none',color: "#434343" }}>
+                            <a 
+                            href={`/Lab_Technologies/${centers.Research_Lab}/${centers.ResearchLabCode}`} 
+                            style={{ textDecoration: 'none',color: "#434343" }} 
+                            // onClick={() => trackNavigation(`External Link - ${centers.Research_Lab}`)}
+                            >
                                 <p style={{color: "#434343", fontWeight: 400, fontSize: "1.66vw", lineHeight:'1.7vw' }}>{centers.Research_Lab}</p>
                                 <p style={{color: "#434343", fontWeight: 400, fontSize: "1.0417vw", display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }} >
                                 {centers.Description}   
                                 </p>
                             </a>
                             <a href="./Technology_Catalogues" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
-                            <Button variant="contained" className="buttons" style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }}>
-                                Explore Catalogues
+                            <Button 
+                                variant="contained" 
+                                className="buttons" 
+                                style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }} 
+                                onClick={() => {
+                                    trackNavigation('Explore catalogues'); // Track the Explore Pages event
+                                    mixpanel.track('Explore Pages', { 'Explore pages': 'Explore catalogues' }); // Track the event in Mixpanel
+                                  }}
+                            >
+                                Explore catalogues
                             </Button>
                             </a>
                         </Grid>
@@ -368,12 +395,24 @@ function Home() {
                         </Grid>
                         <Grid item xs={12} style={{ borderBottom: '0.27vw solid #535353',  marginTop:'-1vw' }}></Grid>
                         <Grid item xs={7} sm={7} md={7} style={{ paddingTop: "4em" }}>
-                            <a href={startup.Website} style={{ textDecoration: 'none' }} target="_blank">
+                            <a 
+                            href={startup.Website} style={{ textDecoration: 'none' }} 
+                            target="_blank" 
+                            // onClick={() => trackNavigation(`External Link - ${startup.StartUp_Name}`)}
+                            >
                                 <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.66vw", lineHeight:'1.7vw' }}>{startup.StartUp_Name}</p>
                                 <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.0417vw",display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis"}} >{startup.Idea_Description}</p>
                             </a>
                             <a href="./Startups" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
-                            <Button variant="contained" className="buttons" style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }}>
+                            <Button 
+                                variant="contained" 
+                                className="buttons" 
+                                style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }}
+                                onClick={() => {
+                                    trackNavigation('Explore startups'); // Track the Explore Pages event
+                                    mixpanel.track('Explore Pages', { 'Explore pages': 'Explore startups' }); // Track the event in Mixpanel
+                                  }}
+                            >
                                 Explore startups
                             </Button>
                             </a>
@@ -408,8 +447,16 @@ function Home() {
                             <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.0417vw" }} >
                               Faculty - {patent.Faculty_List && patent.Faculty_List.length > 1 ? patent.Faculty_List.join(', ') : patent.Faculty_List}
                             </p>
-                            <a href="/patents" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
-                              <Button variant="contained"className="buttons" style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }}>
+                            <a href="/patents" style={{ textDecoration: 'none',color: '#FFFFFF' }} onClick={() => trackNavigation(heading)}>
+                              <Button 
+                                variant="contained"
+                                className="buttons" 
+                                style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }}
+                                onClick={() => {
+                                    trackNavigation('Explore patents'); // Track the Explore Pages event
+                                    mixpanel.track('Explore Pages', { 'Explore pages': 'Explore patents' }); // Track the event in Mixpanel
+                                  }}
+                              >
                                 Explore patents
                               </Button>
                             </a>
@@ -421,12 +468,24 @@ function Home() {
                         </Grid>
                         <Grid item xs={12} style={{ borderBottom: '0.27vw solid #535353',  marginTop:'-1vw' }}></Grid>
                         <Grid item xs={7} sm={7} md={7} style={{ paddingTop: "4em" }}>
-                        <a href={`/Products_Technologies/${productCenterName[product.CentreName]}/${encodeURIComponent(product.NameOfProduct)}`} style={{ textDecoration: 'none' }}>
+                        <a 
+                        href={`/Products_Technologies/${productCenterName[product.CentreName]}/${encodeURIComponent(product.NameOfProduct)}`} 
+                        style={{ textDecoration: 'none' }} 
+                        // onClick={() => trackNavigation(`External Link - ${product.NameOfProduct}`)}
+                        >
                             <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.66vw", lineHeight:'1.7vw' }}>{product.NameOfProduct}</p>
                             <p style={{ color: "#434343", fontWeight: 400, fontSize: "1.0417vw",display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }} >{product.Description}</p>
                         </a>
                             <a href="./Products" style={{ textDecoration: 'none',color: '#FFFFFF' }}>
-                              <Button variant="contained"className="buttons" style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }}>
+                              <Button 
+                                variant="contained"
+                                className="buttons" 
+                                style={{ fontWeight: 500, textTransform: 'none', fontSize: "1.0417vw", color: '#FFFFFF', borderRadius: "2.7vw", padding: "0 3.5vw", height: '3.5vw',margin:'2vw 0 0' }}
+                                onClick={() => {
+                                    trackNavigation('Explore products'); // Track the Explore Pages event
+                                    mixpanel.track('Explore Pages', { 'Explore pages': 'Explore products' }); // Track the event in Mixpanel
+                                  }}
+                              >
                                 Explore products
                               </Button>
                             </a>
